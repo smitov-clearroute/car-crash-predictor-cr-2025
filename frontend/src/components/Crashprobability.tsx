@@ -11,7 +11,7 @@ const Crashprobability: React.FC<CrashprobabilityProps> = ({ crashProbability })
   const strokeDashOffset = circumference - (crashPercentage / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center w-[200px] md:w-[300px] lg:w-[300px] xl:w-[400px]  h-[200px] rounded-lg border-[1px] border-gray-300 bg-white">
+    <div className="flex flex-col items-center justify-center w-[200px] md:w-[250px] lg:w-[300px] xl:w-[400px]  h-[200px] rounded-lg border-[1px] border-gray-300 bg-white">
       <h1 className="uppercase text-center font-bold text-gray-700 text-sm">Crash Probability</h1>
       <div className="relative">
         <svg width="100" height="100">

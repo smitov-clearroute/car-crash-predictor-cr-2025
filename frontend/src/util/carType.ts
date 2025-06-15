@@ -4,6 +4,7 @@ export interface Car {
         driver: string;
         car: string;
         laps: number;
+        team: string;
         gap: string;
         lastLap: string;
         bestLap: string;

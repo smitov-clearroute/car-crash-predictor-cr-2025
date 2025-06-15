@@ -5,8 +5,8 @@ type Data = {
   position: number;
   number: number;
   driver: string;
+  team : string;
   car: string;
-  pic: string;
   laps: number;
   gap: string;
   bestLap: string;
@@ -14,9 +14,10 @@ type Data = {
   pits: number;
 };
 
-const typedMockData: Data[] = mockData as Data[]; // Explicitly type the mockData
+const typedMockData: Data[] = mockData as Data[];
 
 export const fetchData = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery({
     queryKey: ["carData"],
     queryFn: () => {
