@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import race_data_simulator
 import race_simulator
 from calculate_risk import calculate_risk
@@ -17,6 +18,14 @@ drivers = [
 ]
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 driver_simulators = []
 race_simulators = []
