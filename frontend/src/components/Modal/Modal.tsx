@@ -19,6 +19,7 @@ const Modal = ({ modalData, closeModal }: ModalProps) => {
       className="fixed top-0 overflow-x-scroll left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50"
       onClick={closeModal}
     >
+
       <div
         className="bg-white rounded-lg h-full flex flex-col items-center  md:h-[90%] w-2/3 md:w-2/3 p-8 mx-auto"
         onClick={(e) => e.stopPropagation()}
@@ -31,14 +32,6 @@ const Modal = ({ modalData, closeModal }: ModalProps) => {
         <DriverModal carData={modalData.car} />
         <CarModal carData={modalData.car} />
         </div>
-      <div className="flex">
-          <button
-            className=" px-4  py-2 bg-black text-white rounded hover:bg-gray-600 transition-colors duration-300"
-            onClick={closeModal}
-          >
-            Close
-          </button>
-          </div>
       </div>
     </div>
   );
