@@ -1,12 +1,12 @@
 export const columns = [
-  { label: "P", width: "40px", key: "position" },
-  { label: "#", width: "40px", key: "number" },
-  { label: "Team/Driver", width: "132px", key: "driver" },
-  { label: "Car", width: "100px", key: "car" },
-  { label: "Laps", width: "60px", key: "laps" },
-  { label: "Gap", width: "80px", key: "gap" },
-  { label: "Last Lap", width: "100px", key: "lastLap" },
-  { label: "Best Lap", width: "100px", key: "bestLap" },
-  { label: "Max speed", width: "100px", key: "maxSpeed" },
-  { label: "Pits", width: "60px", key: "pits" },
-];
+    { key: "position", label: "Position", width: "40px" },
+    { key: "number", label: "Number", width: "40px" },
+    { key: "teamDriver", label: "Team / Driver", width: "200px" },
+    { key: "car", label: "Car", width: "100px" },
+    { key: "laps", label: "Laps", width: "80px" },
+    { key: "gap", label: "Gap", width: "80px" },
+    { key: "lastLap", label: "Last Lap", width: "80px" },
+    { key: "bestLap", label: "Best Lap", width: "80px" },
+    { key: "maxSpeed", label: "Max Speed", width: "80px" },
+    { key: "pits", label: "Pits", width: "80px" },
+  ];

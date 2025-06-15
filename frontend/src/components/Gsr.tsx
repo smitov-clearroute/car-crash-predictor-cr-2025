@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Gsr({gsr} : {gsr: number}) {
     const radius = 45;
     const circumference = 2 * Math.PI * radius;
