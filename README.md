@@ -1,39 +1,112 @@
-# Le Mans Car Track Visualizer
+# 🏁 Le Mans Car Track Visualizer & Risk Prediction Dashboard
 
-This project visualizes the Circuit de la Sarthe (Le Mans) track and animates race cars (as dots) moving around the track using a Flask backend and JavaScript frontend.
+A real-time race visualization and predictive analytics platform for the **24 Hours of Le Mans**.
+This project combines a visual canvas showing car movement on the **Circuit de la Sarthe** with telemetry-driven crash risk estimation.
 
-## Features
-- Visual representation of the Le Mans track
-- Animated race cars (dots) moving along the track
-- Easily extendable for real or simulated driver data
+---
 
-## Project Structure
-- `app.py` — Flask backend serving the main page and static files
-- `templates/iframe.html` — Main HTML template with canvas and JS
-- `static/map.js` — JavaScript for drawing the track and animating cars
-- `static/Circuit_de_la_Sarthe_map.webp` — Track map image
-- `requirements.txt` — Python dependencies
+## ✨ Features
 
-## Getting Started
+* 🗺️ Interactive canvas rendering of the Le Mans track
+* 🏎️ 30+ animated race cars moving live along the path
+* 📈 Modular telemetry input (engine, brake, tire, biometric data)
+* ⚠️ Risk prediction system estimating crash/failure likelihood
+* 📊 Extendable dashboard to visualize metrics, telemetry, and predictions
 
-### 1. Backend Setup (Flask)
+---
+
+## 🗂 Project Structure
+
+```
+├── app.py                  # Optional Flask backend for serving map + API
+├── requirements.txt        # Python dependencies
+├── frontend/
+│   ├── static/
+│   │   └── map.js          # Core animation & simulation logic
+│   ├── public/
+│   │   └── Circuit_de_la_Sarthe_map.webp  # Background image
+│   └── index.html          # HTML entry point (canvas container)
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Frontend Setup (Vite/Vanilla or React)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Visit: [http://localhost:5173/](http://localhost:5173/)
+
+---
+
+### 2. (Optional) Backend Setup (Flask + API)
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
-Visit [http://127.0.0.1:5000/](http://127.0.0.1:5000/) in your browser.
 
-## How It Works
-- The Flask app serves a page with a canvas and loads the track image.
-- `map.js` animates colored dots (cars) moving along the track.
-- You can update `map.js` to fetch real-time data from the backend or an API.
+Visit: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
-## Customization & Extension
-- **Add more cars:** Edit the `cars` array in `static/map.js`.
-- **Use real data:** Add a Flask API endpoint and fetch data in `map.js`.
-- **Change visuals:** Adjust colors, dot size, or add labels in `map.js`.
+You can expose endpoints like `/api/risk` to receive and process telemetry.
 
-## License
-MIT (or specify your hackathon's license requirements) 
+---
+
+## 🧠 Crash Risk Model Inputs (Sample)
+
+This project uses simulated or real-time telemetry such as:
+
+```json
+{
+  "engine_rpm": 6995.58,
+  "brake_pedal_pressure": 3.9,
+  "brake_disc_temp_FL": 380.6,
+  "tire_pressure_FR": 30.03,
+  "tire_wear_rate": 0.0000052,
+  "oil_temperature": 100.0,
+  "oil_pressure": 60.0,
+  "heart_rate": 131,
+  "gsr": 4.06,
+  "pupil_dilation": 3.0,
+  "blink_rate": 18.0,
+  "track_temperature": 35.01,
+  "rainfall_intensity": 0.065,
+  "ambient_light": 783.8
+}
+```
+
+🧪 These metrics feed into a crash/failure probability engine (in progress) which can color-code cars or trigger alerts.
+
+---
+
+## 🛠 Customization & Extension
+
+| Goal                          | How to do it                                |
+| ----------------------------- | ------------------------------------------- |
+| Add more cars                 | Update the `cars` array in `map.js`         |
+| Change track or scale         | Replace background in `public/`             |
+| Connect to live data          | Use `fetch()` to pull from `/api/telemetry` |
+| Show car IDs or flags         | Add labels in the canvas draw logic         |
+| Highlight crash-prone drivers | Color-code by risk level                    |
+
+---
+
+## 🧩 Coming Soon
+
+* 🧠 Machine Learning model for crash prediction
+* 🖼️ UI dashboard with car telemetry in real time
+* 📍 Sector timing, laps completed, weather overlay
+* 🛠️ Admin mode to simulate scenarios manually
+
+---
+
+## 📄 License
+
+MIT — or use a license appropriate for your hackathon or internal project.
