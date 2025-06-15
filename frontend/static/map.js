@@ -1,32 +1,22 @@
 const canvas = document.getElementById("lemansMap");
 let ctx;
 
-let cars; // Declare cars outside the init function
-let trackPoints; // Declare trackPoints outside the init function
-let interpolateTrack; // Declare interpolateTrack outside the init function
+let cars = [];
+let trackPoints = [];
+let interpolateTrack = () => [0, 0];
 
-function init() {
-  if (canvas) {
-    ctx = canvas.getContext("2d");
-  }
+function setupCanvas() {
+  if (!canvas) return;
+  ctx = canvas.getContext("2d");
+}
 
+function loadTrackImage(callback) {
   const trackImg = new Image();
-  trackImg.src = "/static/Circuit_de_la_Sarthe_map.webp";
+  trackImg.src = "Circuit_de_la_Sarthe_map.webp";
+  trackImg.onload = () => callback(trackImg);
+}
 
-  // Generate 30 cars with rainbow colours and staggered progress
-  // const cars = Array.from({ length: 30 }, (_, i) => ({
-  //   id: `car${i + 1}`,
-  //   progress: i / 30,
-  //   color: `hsl(${(i * 360) / 30}, 100%, 50%)`
-  // }));
-
-  // Random colours for each car
-  cars = Array.from({ length: 30 }, (_, i) => ({
-    id: `car${i + 1}`,
-    progress: i / 30,
-    color: `rgb(${Math.floor(Math.random()*256)}, ${Math.floor(Math.random()*256)}, ${Math.floor(Math.random()*256)})`
-  }));
-
+function initTrackPoints() {
   trackPoints = [
     [214.34, 636.07], [187.19, 590.5], [147.41, 534.62], [127.92, 507.47],
     [138.64, 476.88], [131.07, 445.21], [112.22, 424.06], [125.11, 399.34],
@@ -41,50 +31,81 @@ function init() {
     [402.7, 727.29], [339.92, 698.72], [291.42, 679.29], [262.43, 652.91],
     [226.03, 670.39], [211.16, 645.7]
   ];
+}
 
-  interpolateTrack = function(progress) {
+function initCars(count = 40) {
+  cars = Array.from({ length: count }, (_, i) => ({
+    id: `car${i + 1}`,
+    progress: i / count,
+    color: `rgb(${rand255()}, ${rand255()}, ${rand255()})`,
+    speed: 0.00019 + Math.random() * 0.00002
+  }));
+}
+
+function rand255() {
+  return Math.floor(Math.random() * 256);
+}
+
+function defineInterpolator() {
+  interpolateTrack = (progress) => {
     const total = trackPoints.length;
     const index = Math.floor(progress * (total - 1));
     const nextIndex = (index + 1) % total;
     const localProgress = (progress * (total - 1)) % 1;
 
-    const x = trackPoints[index][0] + localProgress * (trackPoints[nextIndex][0] - trackPoints[index][0]);
-    const y = trackPoints[index][1] + localProgress * (trackPoints[nextIndex][1] - trackPoints[index][1]);
+    const [x1, y1] = trackPoints[index];
+    const [x2, y2] = trackPoints[nextIndex];
+
+    const x = x1 + localProgress * (x2 - x1);
+    const y = y1 + localProgress * (y2 - y1);
     return [x, y];
-  };
-
-  function drawMap() {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(trackImg, 0, 0, canvas.width, canvas.height);
-
-    cars.forEach(car => {
-      const [x, y] = interpolateTrack(car.progress);
-      ctx.beginPath();
-      ctx.arc(x, y, 6, 0, Math.PI * 2);
-      ctx.fillStyle = car.color;
-      ctx.fill();
-      ctx.strokeStyle = "#fff";
-      ctx.stroke();
-    });
-  }
-
-  function animate() {
-    if (!ctx) return;
-    cars.forEach(car => {
-      car.progress += 0.0002;
-      if (car.progress > 1) car.progress = 0;
-    });
-    drawMap();
-    requestAnimationFrame(animate);
-  }
-
-  trackImg.onload = () => {
-    drawMap();
-    animate();
   };
 }
 
-document.addEventListener('DOMContentLoaded', init);
+function drawMap(trackImg) {
+  if (!ctx) return;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(trackImg, 0, 0, canvas.width, canvas.height);
+
+  cars.forEach(car => {
+    const [x, y] = interpolateTrack(car.progress);
+    ctx.beginPath();
+    ctx.arc(x, y, 6, 0, Math.PI * 2);
+    ctx.fillStyle = car.color;
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.stroke();
+  });
+}
+
+function animate(trackImg) {
+  cars.sort((a, b) => a.progress - b.progress);
+
+  cars.forEach((car, i) => {
+    const nextCar = cars[(i + 1) % cars.length];
+    const gap = (nextCar.progress - car.progress + 1) % 1;
+
+    car.progress += gap < 0.01 ? car.speed * 1.1 : car.speed;
+    if (car.progress > 1) car.progress -= 1;
+  });
+
+  drawMap(trackImg);
+  requestAnimationFrame(() => animate(trackImg));
+}
+
+function init() {
+  setupCanvas();
+  initTrackPoints();
+  initCars();
+  defineInterpolator();
+
+  loadTrackImage((trackImg) => {
+    drawMap(trackImg);
+    animate(trackImg);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", init);
 
 export { trackPoints, cars, interpolateTrack };
