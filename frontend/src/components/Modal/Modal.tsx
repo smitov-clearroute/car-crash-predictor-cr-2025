@@ -1,16 +1,19 @@
 
 import type { Car } from "../../util/carType";
+import CarModal from "./CarModal";
 import DriverModal from "./DriverModal";
 
 interface ModalProps {
-  modalData: { rowIndex: number; car: Car } | null;
+  modalData: { car: Car } | null;
   closeModal: () => void;
 }
 
-const Modal = ({ modalData,closeModal }: ModalProps) => {
+const Modal = ({ modalData, closeModal }: ModalProps) => {
   if (!modalData || !modalData.car) {
     return null;
   }
+
+
   return (
     <div
       className="fixed top-0 overflow-x-scroll left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50"
@@ -21,16 +24,16 @@ const Modal = ({ modalData,closeModal }: ModalProps) => {
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-xl flex flex-col text-center font-bold mb-4 text-gray-800">
-          Driver: {modalData.car.driver}
-            <span className="text-gray-600  text-sm">{modalData.car.car}</span>
+          Driver: {modalData.car.driver_data.driver_name}
+            <span className="text-gray-600  text/-sm">{modalData.car.driver_data.car_name}</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <DriverModal />
-        <DriverModal />
+        <DriverModal carData={modalData.car} />
+        <CarModal carData={modalData.car} />
         </div>
       <div className="flex">
           <button
-            className="mt-6 px-4  py-2 bg-black text-white rounded hover:bg-gray-600 transition-colors duration-300"
+            className=" px-4  py-2 bg-black text-white rounded hover:bg-gray-600 transition-colors duration-300"
             onClick={closeModal}
           >
             Close

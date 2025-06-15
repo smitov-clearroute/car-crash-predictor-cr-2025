@@ -34,6 +34,7 @@ type DataValues = {
     tire_wear_rate: number;
     coolant_temperature: number;
     coolant_pressure: number;
+    oil_pressure: number;
     oil_temperature: number;
     oil_level: number;
     heart_rate: number;

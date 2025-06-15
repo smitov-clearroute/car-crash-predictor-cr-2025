@@ -5,10 +5,9 @@ interface CrashprobabilityProps {
 }
 
 const Crashprobability: React.FC<CrashprobabilityProps> = ({ crashProbability }) => {
-  const crashPercentage = Math.round(crashProbability * 100);
   const radius = 45;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashOffset = circumference - (crashPercentage / 100) * circumference;
+
 
   return (
     <div className="flex flex-col items-center justify-center w-[200px] md:w-[250px] lg:w-[300px] xl:w-[400px]  h-[200px] rounded-lg border-[1px] border-gray-300 bg-white">
@@ -31,7 +30,7 @@ const Crashprobability: React.FC<CrashprobabilityProps> = ({ crashProbability })
             strokeWidth="8"
             fill="none"
             strokeDasharray={circumference}
-            strokeDashoffset={strokeDashOffset}
+            strokeDashoffset={(1 - crashProbability / 100) * circumference}
             strokeLinecap="round"
           />
           <text
@@ -41,7 +40,7 @@ const Crashprobability: React.FC<CrashprobabilityProps> = ({ crashProbability })
             textAnchor="middle"
             dominantBaseline="middle"
           >
-            {crashPercentage}%
+            {crashProbability}%
           </text>
         </svg>
       </div>

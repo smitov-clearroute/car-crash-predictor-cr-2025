@@ -53,10 +53,10 @@ type Car = {
 
 export default function CarDetails() {
   const { data, error, isLoading } = fetchData();
-  const [modalData, setModalData] = useState<{ rowIndex: number; car: Car } | null>(null);
+  const [modalData, setModalData] = useState<{ car: Car } | null>(null);
 
-  const handleRowClick = (rowIndex: number, car: Car) => {
-    setModalData({ rowIndex, car });
+  const handleRowClick = (car: Car) => {
+    setModalData({ car });
   };
 
   const closeModal = () => {
@@ -83,7 +83,7 @@ export default function CarDetails() {
               className={`hover:bg-gray-600 ${
                 rowIndex % 2 === 0 ? "bg-gray-800" : "bg-black"
               } cursor-pointer relative`}
-              onClick={() => handleRowClick(rowIndex, car)}
+              onClick={() => handleRowClick( car)}
             >
               {columns.map((col, colIndex) => {
                 let cellContent;
@@ -95,7 +95,7 @@ export default function CarDetails() {
                     </div>
                   );
                 } else {
-                  // Use the original data for other columns
+
                   cellContent = car.driver_data[col.key as keyof typeof car["driver_data"]];
                 }
 
